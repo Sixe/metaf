@@ -1,0 +1,199 @@
+html {
+  padding:0px;
+  margin:0px;
+  overflow: -moz-scrollbars-vertical;
+  
+}
+
+body {
+	font-size: 12px;
+	font-family: Arial,Helvetica,sans-serif;
+	color: #333333;
+	padding:0px;
+	margin:0px;
+	background-image: url('images/background.jpg'); 
+	background-repeat: repeat-xy;
+	width:100%;
+	position:relative;
+	left:0px;
+	top:0px;
+	z-index:0;
+}
+
+div#bandeau_top
+{
+	position:absolute;
+	left:0;
+	top:0;
+	height:0px;
+	width:100%;
+	background-image: url('images/top.png');
+	background-position: center 0;
+	background-repeat: repeat-x;
+	z-index:-9;
+}
+
+#coin_left
+{
+	position:absolute;
+	left:0;
+	top:0;
+	width:826px;
+	height:543px;
+	background-image: url('images/coingauche.png');
+	background-position: 0px 0px; 
+	z-index:-10;
+}
+
+#coin_right
+{
+	position:absolute;
+	right:0;
+	top:0;
+	width:800px;
+	height:514px;
+	background-image: url('images/coindroit.png');
+	background-position: 0px  0px; 
+	z-index:-10;
+}
+
+#header2 {
+	position:absolute;
+	right:0;
+	top:0;
+	height:100%;
+	width:100%;
+	z-index:-11;
+	text-align:center;
+}
+
+#header2 div#image_header {
+	
+	height:682px;
+	background-image: url('images/metafora2.png');
+	background-repeat: no-repeat;
+	
+	margin: auto;
+	margin-left:125px;
+}
+
+#header1 {
+	display:none;
+}
+	
+#header h1 {
+	color: white;
+	line-height: 30%;
+}
+
+#header h4 {
+	color: white;
+}
+
+#headerimg 	{
+}
+
+.footer {
+	width:720px;
+	text-align:center;
+	padding-top:5px;
+	padding-left:102px;
+}
+
+.border_left {
+	width:4px;
+	background:transparent url(images/shard_left.png) repeat-y;
+	_background:none;
+	display:table-cell;
+}
+
+.border_right {
+	width:4px;
+	background:transparent url(images/shard_right.png) repeat-y;
+	_background:none;
+	display:table-cell;
+}
+
+.content {
+	padding:15px 12px 15px 12px;
+	overflow:hidden;
+	background-color:white;
+	width:800px;
+	min-height:400px;
+	display:table-cell;
+}
+#page {
+	padding-top:100px;
+	width:100%;
+	margin
+}
+.border_cbl {
+	width:4px;
+	height:4px;
+	background:transparent url(images/shard_bottoml2.png) no-repeat;
+	_background:none;
+	display:table-cell;
+}
+.border_bottom {
+	height:4px;
+	background:transparent url(images/shard_bottom2.png) repeat-x;
+	_background:none;
+	display:table-cell;
+}
+.border_cbr {
+	width:4px;
+	height:4px;
+	background:transparent url(images/shard_bottomr2.png) no-repeat;
+	_background:none;
+	display:table-cell;
+}
+.window {
+	display:table;
+	margin-left:auto;
+	margin-right:auto;
+}
+.button {
+	background-color: #eeeeee;
+	padding: 2px 6px;
+	font-size: 12px;
+	font-weight: bold;
+	font-family: arial, helvetica, sans-serif;
+	border: 1px solid silver;
+	cursor: pointer;
+	outline:none;
+	white-space:nowrap;
+}
+
+.button:hover {
+	background-color: white;
+	border: 1px solid silver;
+	text-decoration: none;
+}
+A { text-decoration: none; color: #000000; }
+A:Hover { text-decoration: underline; }
+.cell_left {
+	display:table-cell;
+	text-align:right;
+	padding:2px;
+}
+.cell_right {
+	display:table-cell;
+	padding:2px;
+}
+.step {
+	float:left;
+	font-size:1.8em;
+	font-weight:bold;
+	text-decoration:underline;
+}
+.lang {
+	font-size:1.8em;
+	margin-left:8px;
+	margin-right:8px;
+}
+.bigb {
+	font-size:1.8em;
+}
+.error {
+	color:red;
+}

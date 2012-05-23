@@ -1,0 +1,8 @@
+AddDefaultCharset UTF-8
+
+RewriteEngine On
+RewriteRule ^forum$ index.php?shard=forum&action=g_default [L]
+RewriteRule ^blog$ index.php?shard=blog&action=g_default [L]
+RewriteRule ^(.*)_([0-9]+)\.html$ index.php?shard=blog&action=g_view&blog=$1&ID=$2 [L]
+RewriteRule ^(.*)_([0-9]+)\.html$ index.php?shard=blog&action=g_view&blog=$1&ID=$2 [L]
+RewriteRule ^(.*)\.html(.*)$ index.php?shard=$1$2 [L]

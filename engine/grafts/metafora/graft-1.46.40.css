@@ -1,0 +1,254 @@
+body {
+	background-image: url('images/background.jpg');
+	background-color: #cfcfcf;
+	background-repeat: repeat-x;
+}
+
+div#bandeau_top
+{
+	background-image: url('images/top.png');
+	background-position: center 0;
+	background-repeat: repeat-x;
+}
+
+#coin_left
+{
+	position:absolute;
+	left:0;
+	top:0;
+	width:826px;
+	height:543px;
+	background-image: url('images/coingauche.png');
+	background-position: 0px 0px; 
+	z-index:-10;
+}
+
+#coin_right
+{
+	position:absolute;
+	right:0;
+	top:0;
+	width:800px;
+	height:514px;
+	background-image: url('images/coindroit.png');
+	background-position: 0px  0px; 
+	z-index:-10;
+}
+#header2 div#image_header {
+	height:682px;
+	margin-left:125px;
+	background-image: url('images/metafora2.png');
+	background-repeat: no-repeat;
+}
+.content {
+	border-top: 1px solid #c8c8c8;
+}
+.shard_topleft {
+	background:transparent url(images/shard_topl.png) no-repeat;
+}
+
+.shard_title {
+	background:transparent url(images/shard_top.png) repeat-x;
+}
+.shard_topright {
+	background:transparent url(images/shard_topr.png) no-repeat;
+}
+
+.shard_left {
+	background:transparent url(images/shard_left.png) repeat-y;
+}
+
+.shard_right {
+	background:transparent url(images/shard_right.png) repeat-y;
+}
+
+.shard_bottomleft {
+	background:transparent url(images/shard_bottoml2.png) no-repeat;
+}
+
+.shard_bottom {
+	background:transparent url(images/shard_bottom2.png) repeat-x;
+}
+
+.shard_bottomright {
+	background:transparent url(images/shard_bottomr2.png) no-repeat;
+}
+
+#shard_open {
+	background-image: url('images/shard_open.png');
+	background-repeat: no-repeat;
+}
+
+
+.menuColumnInfo {
+	background-color: #993530;
+	background-image: url('images/gradient2.png');
+	background-repeat: repeat-x;
+}
+.threadTMenu {
+	background-image: url('images/menudown.gif');
+	background-repeat: no-repeat;
+	background-position: right center;
+}
+.threadTMenuSel {
+	background-color: #616161;
+	background-image: url('images/shard_open.gif');
+	background-repeat: no-repeat;
+	background-position: right center;
+}
+.threadColumnInfo {
+	background-color: #E9E9E9;
+	background-image: url('images/gradient1.png');
+}
+.blockquote {
+	background: url('images/quote.gif') no-repeat #F9F9F9;
+  color: #666;
+  border-left: 2px solid #ddd;
+  -webkit-box-shadow: -2px 2px 5px #CCC;
+  -moz-box-shadow: -2px 2px 5px #CCC;
+  box-shadow: -2px 2px 5px #CCC;
+}
+blockquote {
+	background-image: url(images/quote.gif);
+	background-repeat: no-repeat;
+}
+#border_left {
+	background:transparent url(images/shard_left.png) repeat-y;
+}
+
+#border_right {
+	background:transparent url(images/shard_right.png) repeat-y;
+}
+
+#border_bottom {
+	background:transparent url(images/shard_bottom2.png) repeat-x;
+}
+
+#border_ctl {
+	background:transparent url(images/shard_bottoml2.png) no-repeat;
+}
+
+#border_ctr {
+	background:transparent url(images/shard_bottomr2.png) no-repeat;
+}
+
+#border_cbl {
+	background:transparent url(images/shard_bottoml2.png) no-repeat;
+}
+
+#border_cbr {
+	background:transparent url(images/shard_bottomr2.png) no-repeat;
+}
+#errorImage {
+	background-image: url('images/warning.png');
+	background-repeat: no-repeat;
+}
+.indicator {
+	background-image: url('images/indicator.gif');
+	background-repeat: no-repeat;
+}
+#miniflex li {
+	width:82px;
+	height:25px;
+	display: block;
+	float:left;
+	list-style: none;
+  	text-decoration: none;
+	text-align:center;
+	font-weight:bold;
+	font-size:13px;
+	background-image: none;
+	background-repeat: no-repeat;
+	background-color:#616161;
+}
+#miniflex li.miniflexSelected  {
+	font-weight:bold;
+	float:left;
+	display: block;
+	padding:0px;
+	margin:0px;
+	background-image: none;
+	background-repeat: no-repeat;
+	background-color:#ffffff;
+	border-top: 1px solid #c8c8c8;
+	border-right: 1px solid #c8c8c8;
+	border-left: 1px solid #c8c8c8;
+	height:24px; /*à cause du border*/
+}
+	
+#miniflex li.miniflexSelected a:link, #miniflex  li.miniflexSelected a:visited{
+	padding:0px;
+	margin:0px;
+	width:82px;
+	height:18px;
+	color: black;
+	display:block;
+	font-weight:bold;
+	background-color: #ffffff;
+	}
+	
+#miniflex  li.miniflexSelected:hover {
+	background-color: #ffffff;
+	}	
+
+#miniflex a:link, #miniflex a:visited{
+	padding:0px;
+	margin:0px;
+	width:82px;
+	height:18px;
+	color: #ffffff;
+	display:block;
+}
+
+#miniflex li:hover {
+	background-color: #000000;
+}
+li#onglet_separator0, li#onglet_separator1, li#onglet_separator2, li#onglet_separator3, li#onglet_separator4, li#onglet_separator5, li#onglet_separator6
+{
+	width:7px;
+	background-color:transparent;
+}
+.closeButton {
+	background-image: url('images/close.png');
+	background-repeat: no-repeat;
+}
+#sliderbg {
+	background:url(images/horizBg.png) no-repeat;
+}
+.uparrowon {
+	background-image: url('images/uparrowon.gif');
+	background-repeat: no-repeat;
+	background-position: center center;
+}
+
+.downarrowon {
+	background-image: url('images/downarrowon.gif');
+	background-repeat: no-repeat;
+	
+}
+
+.uparrowoff {
+	background-image: url('images/uparrowoff.gif');
+	background-repeat: no-repeat;
+}
+
+.downarrowoff {
+	background-image: url('images/downarrowoff.gif');
+	background-repeat: no-repeat;
+}
+#threadModRating {
+	background: silver;
+	background-image: url(images/background-image.png);
+	background-repeat: repeat-x;
+}
+.pollGraphBar {
+	background-image: url(images/gradient2.png);
+	background-repeat: repeat-x;
+}
+.speakerOn {
+	background-image: url(images/sound_on.gif);
+	}
+	
+.speakerOff {
+	background-image: url(images/sound_off.gif);
+	}
