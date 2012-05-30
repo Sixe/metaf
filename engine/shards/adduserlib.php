@@ -131,7 +131,7 @@
 	function generatePassword($length = 12) {
 
 		$password = "";
-		$possible = ",;#!éèêôîûÉÎÔÈÊ2346789bcdfghjkmnpqrtvwxyzBCDFGHJKLMNPQRTVWXYZ";
+		$possible = ",;#!Ã©Ã¨ÃªÃ´Ã®Ã»Ã‰ÃŽÃ”ÃˆÃŠ2346789bcdfghjkmnpqrtvwxyzBCDFGHJKLMNPQRTVWXYZ";
 		$maxlength = strlen($possible);
 
 		if ($length > $maxlength) {

@@ -1334,5 +1334,6 @@ $LANG = array(
 	"ADMIN_OPTIONS_SUB2" => "ADMINISTRATION",
 	"ADMIN_OPTIONS_SUB3" => "LOGGED USERS",
 	"ADMIN_OPTIONS_SUB4" => "ANONYMOUS USERS",
-	"CHANNEL_SIGNAL_NUM" => "Channel number for post signals and bans"
+	"CHANNEL_SIGNAL_NUM" => "Channel number for post signals and bans",
+	"TIMEZONE" => "Timezone"
 	);

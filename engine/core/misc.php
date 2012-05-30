@@ -348,7 +348,6 @@ function mysql_error_override($input="") {
 		$LANG['ERROR_DATABASE'] = "Database error";
 		$LANG['ERROR_REQUEST'] = "Error";
 	}
-//	include('engine/core/settings.php');
 
 	$g = "engine/grafts/" . $siteSettings['graft'] . "/";
 	$versioncorecss = file_get_contents("engine/grafts/core-styles/core-styles-version.txt");

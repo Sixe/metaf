@@ -85,8 +85,8 @@
 	include("lang/" . $SSDB['lang'] . ".php");
 
 	// Go to resquested step
-	if( isset($_REQUEST['step']))
-		$step = $_REQUEST['step'];
+	if( isset($_REQUEST['update']))
+		$step = $_REQUEST['update'];
 	else
 		$step = "intro";
 	switch($step):
@@ -101,7 +101,7 @@
 				<div style='font-size:1.2em;margin-bottom:16px;'>".$LANG['UPDATE_FROM_1']."<span style='font-weight:bold;'>".$mf_version."</span>".$LANG['UPDATE_FROM_2']."<span style='font-weight:bold;'>".$metafora_version."</span></div>
 				<div style='font-size:1.2em;'>".$LANG['INTRO_TEXT3']."</div>
 			</div>
-			<div style='float:right;'><a href='update.php?step=upd' class='bigb button'>".$LANG['NEXT']."</a></div>");
+			<div style='float:right;'><a href='update.php?update=upd' class='bigb button'>".$LANG['NEXT']."</a></div>");
 		print($footer);
 	}
 	break;
@@ -137,22 +137,32 @@
 				$error_msg .= $result."</br>";
 			$old = true;
 		}
+		if ($old || $mf_version == "1.10b3") {
+			$result = load_sql("update_1.10b3_to_1.10b4.sql");
+			if($result !== TRUE)
+				$error_msg .= $result."</br>";
+			$old = true;
+		}
 		if (!$error_msg) {
-			mf_query("DELETE FROM version WHERE site = \"metafora_version\" LIMIT 1");
-			mf_query("INSERT INTO version (site, version) VALUES (\"metafora_version\",\"$metafora_version\")");
 			print($LANG['UPDATE_DB_SUCCESS']);
-			print("</div><div style='float:right;'><a href='update.php?step=end' class='bigb button'>".$LANG['NEXT']."</a></div>");
 		}
 		else {
-			print($error_msg);
-			print("</div><div style='float:left;'><a href='update.php?step=intro' class='bigb button'>".$LANG['PREVIOUS']."</a></div>");
+			print("<div style='color:red;margin-bottom:8px;'>$LANG[UPDATE_DB_UNSUCCESS]</div>");
+			print("<div style='max-height:120px;overflow:auto;border:1px solid red;padding:4px;font-size:0.7em;'>$error_msg</div>");
 		}
+		print("</div>");
+		if ($error_msg)
+			print("<div style='float:left;'><a href='update.php?update=intro' class='bigb button'>".$LANG['PREVIOUS']."</a></div>");
+		print("<div style='float:right;'><a href='update.php?update=end' class='bigb button'>".$LANG['NEXT']."</a></div>");
 		print($footer);
 	}
 	break;
 
 
 	case "end": {
+
+		mf_query("DELETE FROM version WHERE site = \"metafora_version\" LIMIT 1");
+		mf_query("INSERT INTO version (site, version) VALUES (\"metafora_version\",\"$metafora_version\")");
 
 		print($header);
 		print("<div class='step'>".$LANG['END']." - ".$LANG['UPDATE_END_TITLE']."</div>");

@@ -20,22 +20,12 @@
 
 // blog.php
 
-global $siteSettings;
-global $CURRENTUSERAJAX;
-global $CURRENTUSERID;
-global $CURRENTUSER;
-global $CURRENTUSERRATING;
-
 	require("bloglib.php");
 	require("user_profilelib.php");
 	require("forumlib.php");
-	foreach($_REQUEST as $keyVar => $value)
-	{
+	foreach($_REQUEST as $keyVar => $value) {
 		$_REQUEST[$keyVar] = xss_clean($_REQUEST[$keyVar]);		
 	}
-
-global $verifyEditDelete;
-global $verifyBlogger;
 
 	switch( $action ):
 
@@ -43,7 +33,7 @@ global $verifyBlogger;
 	case "g_view":
 	
 
-	if ($CURRENTUSER != "anonymous" and $CURRENTUSER != "bot") {
+	if ($CURRENTUSER != "anonymous" && $CURRENTUSER != "bot") {
 		if (!isInGroup($CURRENTUSER, 'log_ip') && (($verifyEditDelete) or (isInGroup($CURRENTUSER, 'level0')) or (isInGroup($CURRENTUSER, 'level1')) or (isInGroup($CURRENTUSER, 'level7'))))
 			$ip = "";
 		else
@@ -51,7 +41,7 @@ global $verifyBlogger;
 	
 		$update = mf_query("update users set lat=".time().", laid=0, ip='$ip' where ID=$CURRENTUSERID limit 1");
 	}
-	if ($CURRENTUSERAJAX or $CURRENTUSER == "anonymous")
+	if ($CURRENTUSERAJAX || $CURRENTUSER == "anonymous")
 		$jt = "</span>";
 
 	$userID = "0";
@@ -65,15 +55,13 @@ global $verifyBlogger;
 
 	$listblog = "";
 	$displaybloglist = "";
-	if (array_key_exists('listblog', $_REQUEST))
-	{
+	if (array_key_exists('listblog', $_REQUEST)) {
 		$listblog = generateBlogList();
 		$displaybloglist = "display:block;";
 	}
 	
 	$webname = "";
-	if (array_key_exists('blog', $_REQUEST))
-	{
+	if (array_key_exists('blog', $_REQUEST)) {
 		$blogwebname = make_var_safe($_REQUEST['blog']);
 //		$blogwebname = substr($blogwebname,1,strlen($blogwebname) -1);
 		$readwebname = mf_query("SELECT userID, webname FROM blog WHERE webname = \"$blogwebname\" limit 1");
@@ -169,8 +157,7 @@ src=\"http://pagead2.googlesyndication.com/pagead/show_ads.js\">
 		$bhead = New contentObj;
 		
 		$bhead->primaryContent .= "<div id='threadlist'>$blogad<div id='parentC'>$blogfrom<div class='blogbuttontop'>";
-		if (($verifyBlogger and !$userID) or ($CURRENTUSERID == $userID))
-		{
+		if ($CURRENTUSER != "anonymous" && (($verifyBlogger && !$userID) || ($CURRENTUSERID == $userID))) {
 			$bhead->primaryContent .= "<div style='float:left;'>
 				<span onclick=\"callNewThreadForm();\" title='$LANG[CREATE_NEW_THREAD]' class='button'>
 				$LANG[NEW_THREAD] <img src='engine/grafts/$siteSettings[graft]/images/menudown.gif' alt='$LANG[NEW_THREAD]' /></span>";
@@ -181,11 +168,9 @@ src=\"http://pagead2.googlesyndication.com/pagead/show_ads.js\">
 			$bhead->primaryContent .= "</div>";
 		}
 		$bhead->primaryContent .= "<span style='float:right;'>";
-		if ($userID != $CURRENTUSERID)
-	{
+		if ($userID != $CURRENTUSERID) {
 			$gowebname = "";
-		if ($siteSettings['mod_rewrite'])
-		{
+		if ($siteSettings['mod_rewrite']) {
 				$readwebname = mf_query("select webname from blog where userID = '$CURRENTUSERID' limit 1");
 				$readwebname = mysql_fetch_assoc($readwebname);
 			if ($readwebname['webname'])

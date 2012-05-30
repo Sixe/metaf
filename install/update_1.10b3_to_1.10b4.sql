@@ -1,0 +1,4 @@
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+
+
+ALTER TABLE `settings` ADD `timezone` VARCHAR( 120 ) NOT NULL ;

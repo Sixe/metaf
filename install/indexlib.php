@@ -52,9 +52,10 @@ function load_sql( $filename ) {
 			$cmd = str_replace(';;', ";", $cmd);
 			$res = query( $cmd );
 
-			if ( false === $res ) {
+			if ( false === $res) {
 				$err = lastError();
-				return "$LANG[DBCOPY_ERROR2] \"{$cmd}\" $LANG[DBCOPY_ERROR3] \"$err\".\n";
+				if (!strstr($err, "Duplicate column name"))
+					return "$LANG[DBCOPY_ERROR2] \"{$cmd}\" $LANG[DBCOPY_ERROR3] \"<span style='color:red;'>$err</span>\".\n";
 			}
 
 			$cmd = '';

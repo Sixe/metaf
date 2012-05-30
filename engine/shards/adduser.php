@@ -110,7 +110,7 @@
 					$birthdate = str_replace(".","",$birthdate);
 					$birthdate = str_replace(" ","",$birthdate);
 					$birthdate = make_num_safe($birthdate);
-							if (is_numerc($birthdate) && strlen($birthdate) == 8 && $birthdate > 0) {
+					if (is_numeric($birthdate) && strlen($birthdate) == 8 && $birthdate > 0) {
 						if ($LANG['CAL_FORMAT'] == "dd/MM/yyyy")
 							$birthdate = substr($birthdate,4,4).substr($birthdate,2,2).substr($birthdate,0,2);
 						else if ($LANG['CAL_FORMAT'] == "yyyy/MM/dd")

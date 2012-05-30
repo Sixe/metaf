@@ -95,7 +95,7 @@
 		$CURRENTUSERAJAX = "1";
 	}
 
-
+	// Number of theads per page
 	$siteSettings['threadpp'] = 40;
 	if ($siteSettings['mobile'])
 		$siteSettings['threadpp'] = 20;
@@ -104,7 +104,16 @@
     $SSDB = mf_query("SELECT * FROM settings LIMIT 1");
     $SSDB = mysql_fetch_assoc($SSDB);
 
-    if (!isset( $SSDB['user'] )) {
+	// Timezone
+	if (!isset($SSDB['timezone']) || !$SSDB['timezone']) {
+		date_default_timezone_set('Europe/Paris');
+		$SSDB['timezone'] = "Europe/Paris";
+	}
+	else
+		date_default_timezone_set($SSDB['timezone']);
+
+    // Name of the "Skynet" user (system messages)
+	if (!isset( $SSDB['user'] )) {
 		$query_sysuser=mf_query("SELECT username FROM users WHERE ID=1");
 		$query_sysuser=mysql_fetch_array($query_sysuser);
 		if (!$query_sysuser['username']) {
@@ -130,11 +139,6 @@
 
 	$siteSettings['description'] = "";
 
-/*    if ($SSDB['lang'] == "")
-    	$siteSettings['lang'] = "fr";
-    else
-    	$siteSettings['lang'] = $SSDB['lang'];
-*/
    	$userlang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'],0,2);
 	if ($userlang == "fr")
 		$siteSettings['lang'] = "fr";
@@ -191,7 +195,6 @@
 				$_REQUEST[$url_elements_in[0]] = $url_elements_in[1];
 			}
 		}
-
 		
 		if (preg_match('/\W/', $shard)) {
 			header("Location: ".make_link("error","error=$shard"));

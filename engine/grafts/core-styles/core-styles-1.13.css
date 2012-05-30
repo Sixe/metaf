@@ -1144,6 +1144,8 @@ blockquote {
 	outline:none;
 	text-decoration: none;
 	cursor:pointer;
+	background-color:#000000;
+	color:#FFFFFF;
 }
 .pageListUnSelected {
 	padding:2px;

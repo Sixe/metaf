@@ -361,11 +361,8 @@ function quickQuote(poster,postID,pCount) {
 	}
 
 	if (lastClickedQQ == qqTag) {
-		var selEnd = textarea.value.length;
-
 		scrolltoID('replyForm');
 		textarea.focus();
-		textarea.setSelectionRange(selEnd, selEnd);
 	}
 	else {
 		if (document.getElementById) {
@@ -396,6 +393,9 @@ function quickQuote(poster,postID,pCount) {
 		}
 	}
 	
+	var selEnd = textarea.value.length;
+	textarea.setSelectionRange(selEnd, selEnd);
+
 	if (document.getElementById('postArea')) {
 		lastClickedQQ = qqTag;
 		setTimeout(function() {reset_lastClickedQQ();}, 2000);
@@ -889,7 +889,6 @@ function addSmily(smily,ID) {
 		var selStart = document.getElementById("postArea" + postID).selectionStart;
 		var selEnd = document.getElementById("postArea" + postID).selectionEnd;
 		var textArea = document.getElementById("postArea" + postID).value;
-//		var selectedText = textArea.substring(selStart,selEnd);
 		smily = smily + " ";
 		addbbcode(smily,'',selStart,selEnd,postID);
 	}
@@ -2047,7 +2046,7 @@ function setRateVisible(postID,ID,postHIDE,rated,already_rated) {
 }
 
 function selectRate(rateID,postID,ID) {
-	var dataline = rateID+"::"+ID+"::"+currentuser;
+	var dataline = rateID+"::"+ID;
 	document.getElementById(postID).style.visibility="hidden";
 	submitRateComment(dataline);
 }
@@ -2145,23 +2144,24 @@ function searchForm() {
 
 function submitsearch() {
 	if (document.getElementById) {
-		var form = document.forms["search"];
-		var searchNodes = form.elements;
-		if (searchNodes[0].value != "" || searchNodes[4].value != "") {
+		var searchterm = document.getElementById('searchterm');
+		var searchusername = document.getElementById('searchusername');
+		var searchinthreadid = document.getElementById('searchinthreadid');
+		var searchdatelimit = document.getElementById('searchdatelimit');
+		if (searchterm.value != "" || searchusername.value != "") {
 			clearInterval(t);
 			clearInterval(m);
 			var exprtype = "";
-			if (searchNodes[4].checked) {
+			if (document.getElementById('expression_exact').checked) {
 				exprtype = "exact";
 			}
-			else if (searchNodes[5].checked) {
+			else if (document.getElementById('expression_all').checked) {
 				exprtype = "all";
 			}
-			else if (searchNodes[6].checked) {
+			else if (document.getElementById('expression_one').checked) {
 				exprtype = "one";
 			}
 
-			var dataLine = europlus(searchNodes[0].value) + ':!@:' + searchNodes[7].value + ':!@:' + searchNodes[9].value + ':!@:' + searchNodes[8].value + ':!@:'  + exprtype;
 			document.getElementById('parentC').style.opacity = ".30";
 			document.getElementById('parentC').style.filter = "alpha(opacity=30)";
 			pleasewait();
@@ -2170,17 +2170,14 @@ function submitsearch() {
 			var channels = document.getElementById('chan_cache').innerHTML;
 			var tags = document.getElementById('tags_cache').innerHTML;
 			var team = document.getElementById('listthreadteam').innerHTML;
-			dataLine = dataLine + ":@@:" + team + ":@@:" + filter + ":@@:1:@@:" + channels + ":@@:" + tags;
-			var cacheS = "";
+			var dataLine = europlus(searchterm.value) + ':!@:' + europlus(searchusername.value) + ':!@:' + searchdatelimit.value + ':!@:' + searchinthreadid.value + ':!@:'  + exprtype + ":@@:" + team + ":@@:" + filter + ":@@:1:@@:" + channels + ":@@:" + tags;
 
-			if (searchNodes[2].checked) {
-				cacheS = escape(searchNodes[0].value) + ':!@:' + escape(searchNodes[7].value) + ':!@:' + searchNodes[9].value + ':!@:0:!@:' + searchNodes[8].value + ':!@:'  + exprtype;
+			var cacheS = escape(searchterm.value) + ':!@:' + escape(searchusername.value) + ':!@:' + searchdatelimit.value + ':!@:0:!@:' + searchinthreadid.value + ':!@:'  + exprtype;
 				document.getElementById('cacheS').innerHTML = cacheS;
+			if (document.getElementById('searchtype_threads').checked) {
 				x_ajax_resetThreadList(dataLine, displaySearchResults);
 			}
 			else {
-				cacheS = escape(searchNodes[0].value) + ':!@:' + escape(searchNodes[7].value) + ':!@:' + searchNodes[9].value + ':!@:1:!@:' + searchNodes[8].value + ':!@:'  + exprtype;
-				document.getElementById('cacheS').innerHTML = cacheS;
 				x_ajax_search_posts(dataLine, displaySearchPost);
 			}
 		}
@@ -2296,7 +2293,7 @@ function changepagepost(page) {
 			var filter = document.getElementById('filter').innerHTML;
 			var channels = document.getElementById('chan_cache').innerHTML;
 			var tags = document.getElementById('tags_cache').innerHTML;
-			var dataLine = search[0].value + ':!@:' + search[7].value + ':!@:' + search[9].value + ':!@:' + search[8].value + ':!@:' + exprtype + ":@@::@@:" + filter + ":@@:" + page + ":@@:" + channels + ":@@:" + tags;
+			var dataLine = europlus(search[0].value) + ':!@:' + europlus(search[7].value) + ':!@:' + search[9].value + ':!@:' + search[8].value + ':!@:' + exprtype + ":@@::@@:" + filter + ":@@:" + page + ":@@:" + channels + ":@@:" + tags;
 			document.getElementById('parentC').style.opacity = ".30";
 			document.getElementById('parentC').style.filter = "alpha(opacity=30)";
 			pleasewait();
@@ -2981,22 +2978,24 @@ function changepage(page) {
 		var dataLine = ":@@:" + team + ":@@:" + filter + ":@@:" + page + ":@@:" + channels + ":@@:" + tags;
 		var ph = document.getElementById('searchForm');
 		if (ph.style.display == "block") {
-			var form = document.forms["search"];
-			var searchNodes = form.elements;
-			if (searchNodes[0].value != "" || searchNodes[4].value != "") {
+			var searchterm = document.getElementById('searchterm');
+			var searchusername = document.getElementById('searchusername');
+			var searchinthreadid = document.getElementById('searchinthreadid');
+			var searchdatelimit = document.getElementById('searchdatelimit');
+			if (searchterm.value != "" || searchusername.value != "") {
 				clearInterval(t);
 				clearInterval(m);
 				var exprtype = "";
-				if (searchNodes[4].checked) {
+				if (document.getElementById('expression_exact').checked) {
 					exprtype = "exact";
 				}
-				else if (searchNodes[5].checked) {
+				else if (document.getElementById('expression_all').checked) {
 					exprtype = "all";
 				}
-				else if (searchNodes[6].checked) {
+				else if (document.getElementById('expression_one').checked) {
 					exprtype = "one";
 				}
-				var dataLine = escape(searchNodes[0].value) + ':!@:' + searchNodes[7].value + ':!@:' + searchNodes[9].value + ':!@:' + searchNodes[8].value + ':!@:'  + exprtype + dataLine;
+				var dataLine = europlus(searchterm.value) + ':!@:' + europlus(searchusername.value) + ':!@:' + searchdatelimit.value + ':!@:' + searchinthreadid.value + ':!@:'  + exprtype + dataLine;
 			}
 		}
 		document.getElementById('numpage_cache').innerHTML = page;
@@ -4780,7 +4779,7 @@ function displaySignal_admin(dataLine) {
 
 function submitSignal_admin(postID) {
 	if (postID) {	
-		var dataLine = postID + '::!sg@::' + escape(document.getElementById("signal_comment").value);
+		var dataLine = postID + '::!sg@::' + europlus(document.getElementById("signal_comment").value);
 		closelayer();
 		x_ajax_submitSignal_admin(dataLine,submitSignal_admin_end);
 		return false;

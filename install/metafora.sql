@@ -693,7 +693,14 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `num_mods_to_ban` int(2) NOT NULL DEFAULT '1',
   `deezer` int(1) NOT NULL,
   `metacafe` int(1) NOT NULL,
-  `iframe` int(1) NOT NULL
+  `iframe` int(1) NOT NULL,
+  `recaptcha_privKey` varchar(255) COLLATE utf8_bin NOT NULL,
+  `recaptcha_pubKey` varchar(255) COLLATE utf8_bin NOT NULL,
+  `mobile_enabled` tinyint(1) NOT NULL DEFAULT '1',
+  `change_page` tinyint(1) NOT NULL,
+  `hide_filters` tinyint(1) NOT NULL,
+  `channel_signal` int(5) NOT NULL,
+  `timezone` varchar(120) COLLATE utf8_bin NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------

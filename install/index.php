@@ -24,7 +24,7 @@
     //
     //-----------------------------------------------------------------------
 
-	if (file_exists("../engine/core/settings.php")) {
+	if (!isset($_REQUEST['step']) && file_exists("../engine/core/settings.php")) {
 		header("Location: update.php");
 		exit();
 	}

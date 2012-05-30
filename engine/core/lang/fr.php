@@ -1338,5 +1338,6 @@ $LANG = array(
 	"ADMIN_OPTIONS_SUB2" => "ADMINISTRATION",
 	"ADMIN_OPTIONS_SUB3" => "UTILISATEURS",
 	"ADMIN_OPTIONS_SUB4" => "ANONYMES",
-	"CHANNEL_SIGNAL_NUM" => "Numéro de catégorie pour les sujets<br/>de signalements de message et de mises au silence"
+	"CHANNEL_SIGNAL_NUM" => "Numéro de catégorie pour les sujets<br/>de signalements de message et de mises au silence",
+	"TIMEZONE" => "Timezone "
 	);

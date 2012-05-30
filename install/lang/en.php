@@ -58,5 +58,6 @@ $LANG = array(
 	"UPDATE_FROM_1" => "Update from version ",
 	"UPDATE_FROM_2" => " to version ",
 	"UPDATE_DB_TABLES" => "Database Update",
-	"UPDATE_DB_SUCCESS" => "Update of the Database successful"
+	"UPDATE_DB_SUCCESS" => "Update of the Database successful",
+	"UPDATE_DB_UNSUCCESS" => "Database update error."
 	);

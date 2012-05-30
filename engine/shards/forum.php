@@ -236,9 +236,9 @@ if ($CURRENTUSER != "anonymous" && $CURRENTUSER != "bot" && $CURRENTSTATUS != "b
 		$LANG[SEARCH_EXPR_ONE]</div>";
 	$searchform .= "<div>";
 	$searchform .= "<table cellspacing='6' cellpadding='0' width='100%'><tr>";
-	$searchform .= "<td><small>$LANG[SEARCH_FILTER_USER]</small> <input type='text' class='bselect' name='user' size='14' value=\"$user\" /></td>";
-	$searchform .= "<td><small>$LANG[SEARCH_FILTER_THREAD]</small> <input type='text' class='bselect' name='thread' size='8' value='' /></td>";
-	$searchform .= "<td align='right'><small>$LANG[SEARCH_DATE]</small> <input type='text' class='bselect' name='searchdate' size='10' value='$searchdate' />";
+	$searchform .= "<td><small>$LANG[SEARCH_FILTER_USER]</small> <input type='text' class='bselect' id='searchusername' name='user' size='14' value=\"$user\" /></td>";
+		$searchform .= "<td><small>$LANG[SEARCH_FILTER_THREAD]</small> <input type='text' class='bselect' id='searchinthreadid' name='thread' size='8' value='' /></td>";
+		$searchform .= "<td align='right'><small>$LANG[SEARCH_DATE]</small> <input type='text' class='bselect' id='searchdatelimit' name='searchdate' size='10' value='$searchdate' />";
 	$searchform .= "</td></tr></table></div></div></form>";
 	$thisContentObj->primaryContent .= "<span id='chan_cache_search' style='display:none;'></span>
 										<span id='channelsAnchor_cache' style='display:none;'></span>
@@ -1284,7 +1284,7 @@ if ($u['teamID'])
 
 	$category = make_num_safe($_POST['channelTag']);
 
-	mf_query("UPDATE forum_topics SET $creator_l locked = '$l', blog = '$b', news = '$news', title=\"$title\", body='$cleanmsg', threadtype = $s, category='$category', spoiler='$spoiler', stickytime = '$stickytime', unvisible = '$unvisible', poll='$poll' where ID='$id'");
+	mf_query("UPDATE forum_topics SET $creator_l locked = '$l', blog = '$b', news = '$news', title=\"$title\", body='$cleanmsg', threadtype = $s, category='$category', spoiler='$spoiler', stickytime = '$stickytime', unvisible = '$unvisible', poll='$poll' WHERE ID='$id'");
 	mf_query("update forum_posts set body='$cleanmsg', notes=\"$notesLine\" where threadID=$id order by ID asc limit 1");
 	
 	// Set introduce thread
