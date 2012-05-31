@@ -14,7 +14,8 @@ function rrmdir($dir) {
 } 
 
 rrmdir("install");
-unlink("mf-version.php");
+if (file_exists("mf-version.txt"))
+	unlink("mf-version.txt");
 unlink("delinstall.php");
 header("Location: index.php");
 ?>
