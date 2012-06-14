@@ -277,11 +277,11 @@
 		<span onclick=\"userprofile('".urlencode($row['user'])."',$i); return false;\">$row[user]</span>
 		</a> $LANG[ON] " . date($LANG['DATEFORMAT'],$row['postDate'])." $LANG[AT] ".date($LANG['TIMEFORMAT'],$row['postDate'])." $locked ";
 		$nb .= "&nbsp; - &nbsp; $LANG[CATEGORY] : 
-			<a href='".make_link("clip","&amp;channel=$row[category]$blog_user")."'>";
+			<a href='".make_link("blog","&amp;channel=$row[category]$blog_user")."'>";
 		if ($jt)
 			$nb .= "<span onclick=\"emptymainBlog(0,$userID,$row[category],'g_default'); return false;\">";
-		$nb .= "&nbsp; - &nbsp; $LANG[NUM_VIEW_1]: <span id='numview$row[ID]'>$row[num_views]</span> $LANG[BLOG_VIEW2]";
 		$nb .= "$row[categoryname]$jt</a>";
+		$nb .= "&nbsp; - &nbsp; $LANG[NUM_VIEW_1]: <span id='numview$row[ID]'>$row[num_views]</span> $LANG[BLOG_VIEW2]";
 
 		$nb .= "</div></div></td></tr></table>";
 

@@ -4871,7 +4871,7 @@ function display_thread_rating($tid,$rating,$user_rate="none") {
 		$marginb = "-36";
 		$upClass = 'uparrowoff';
 		$downClass = 'downarrowoff';
-		$displayClass = "<span class='postTitle' id='threadTRatingStatus".$tid."' style='margin-left:-16px;'>$LANG[RATING]</span>";
+		$displayClass = "<div class='postTitle' id='threadTRatingStatus".$tid."' style='margin-left:-16px;'>$LANG[RATING]</div>";
 
 		if ($user_rate != "none")
 			$userrated['rating'] = $user_rate;
@@ -4882,12 +4882,12 @@ function display_thread_rating($tid,$rating,$user_rate="none") {
 		if ($userrated['rating'] > 0) {			
 			$upClass = 'uparrowon';
 			$downClass = 'downarrowoff';
-			$displayClass = "<span class='postTitlePositive' id='threadTRatingStatus".$tid."' style='margin-left:-16px;'>$LANG[RATED]</span>";
+			$displayClass = "<div class='postTitlePositive' id='threadTRatingStatus".$tid."' style='margin-left:-16px;'>$LANG[RATED]</div>";
 		}
 		else if ($userrated['rating'] < 0) {
 			$downClass = 'downarrowon';
 			$upClass = 'uparrowoff';
-			$displayClass = "<span class='postTitleNegative' id='threadTRatingStatus".$tid."' style='margin-left:-16px;'>$LANG[RATED]</span>";
+			$displayClass = "<div class='postTitleNegative' id='threadTRatingStatus".$tid."' style='margin-left:-16px;'>$LANG[RATED]</div>";
 		}
 
 		$retstr .="<div id='threadModRating'>
@@ -4897,10 +4897,10 @@ function display_thread_rating($tid,$rating,$user_rate="none") {
 								</div>	
 								$displayClass";
 
-		$margin = "-32";
-		if ($rating > 10) { $margin = "-35"; }
-		if ($rating < -10) { $margin = "-41"; }
-		$retstr .= "<span id='ratingDisplaythreadT".$tid."' style='position:absolute; margin-left:".$margin."px; margin-top:12px;'>".number_format($rating, 2)."</span></div>";
+		$margin = "-18";
+		if ($rating > 10) { $margin = "-16"; }
+		if ($rating < -10) { $margin = "-22"; }
+		$retstr .= "<span id='ratingDisplaythreadT".$tid."' style='margin-left:".$margin."px; margin-top:12px;'>".number_format($rating, 2)."</span></div>";
 	}
 	return $retstr;
 }

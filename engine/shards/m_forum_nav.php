@@ -27,6 +27,6 @@
 	$thisMenu->menuContentArray[] = "<a href='".make_link("blog")."' style='outline:none;'><span id='blog_tab'>$LANG[BLOGS]</span></a>";
 	$thisMenu->menuContentArray[] = "<a name='nav' id='anchor_nav'></a><a href='".make_link("forum","","#threadlist")."' style='outline:none;'><span id='forum_tab'>$LANG[FORUM_HOME]</span></a>";
 
-	if ($CURRENTUSER != "anonymous" and $CURRENTUSER != "bot")
-		$thisMenu->menuContentArray[] = "<a href='".make_link("profile")."' style='outline:none;'>Profil</a>";
+	if ($CURRENTUSER != "anonymous" && $CURRENTUSER != "bot")
+		$thisMenu->menuContentArray[] = "<a href='".make_link("profile")."' style='outline:none;'>$LANG[FORUM_PROFILE]</a>";
 ?>

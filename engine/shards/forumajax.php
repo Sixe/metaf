@@ -2287,9 +2287,9 @@
 	for ($page = 1; $page<=($numpages); $page++ ) {
 			if ($page == $pc)
 			$retstr .= "<span onclick=\"changepagepost($page);\" class='pageListSelected'>$page</span> ";
-		else if ($page < 5 || $page > ($numpages - 5) || ($page > ($pc - 9) && $page < ($pc + 9)))
+		else if ($page < 4 || $page > ($numpages - 4) || ($page > ($pc - 6) && $page < ($pc + 6)))
 			$retstr .= "<span onclick=\"changepagepost($page);\" class='pageListUnSelected'>$page</span> ";
-		else if ($page == 5 || $page == ($numpages - 5) || $page == ($pc - 9) || $page == ($pc + 9))
+		else if ($page == 4 || $page == ($numpages - 4) || $page == ($pc - 6) || $page == ($pc + 6))
 			$retstr .= "<span> ... </span>";
 		}
 

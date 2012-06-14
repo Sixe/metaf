@@ -686,7 +686,7 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `teammodo` varchar(255) COLLATE utf8_bin NOT NULL,
   `widgets` varchar(255) COLLATE utf8_bin NOT NULL,
   `team_maxfilesize` int(11) NOT NULL DEFAULT '3',
-  `picture_maxfilesize` int(11) NOT NULL DEFAULT '3'
+  `picture_maxfilesize` int(11) NOT NULL DEFAULT '3',
   `quote_all_post` tinyint(1) NOT NULL,
   `module_friends` tinyint(1) NOT NULL,
   `viewmodlist` int(1) NOT NULL,
