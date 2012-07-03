@@ -66,7 +66,7 @@ function ajax_userprofile($data) {
 
 function ajax_inputUser($data) {
 	$dataline = explode("::@@iu@@::", $data);
-		$user = $dataline[0];
+	$user = $dataline[0];
 	$type = $dataline[1];
 	global $CURRENTUSER;
 	global $CURRENTUSERID;
@@ -76,13 +76,13 @@ function ajax_inputUser($data) {
 
 	$add = "create";
 	
-		$user = urldecode($user);
-		$user = utf8_encode($user);
-		$user = preg_replace_callback("/%u([0-9a-fA-F]{1,4})/", create_function('$matches','return "&#".hexdec($matches[0]).";";'), $user);
-		$user = html_entity_decode($user, ENT_NOQUOTES, 'UTF-8');
-		$user = str_replace("::@plus@::","+",$user);
-		$user = str_replace("::@euro@::","€",$user);
-		$user = make_var_safe($user);
+	$user = urldecode($user);
+	$user = utf8_encode($user);
+	$user = preg_replace_callback("/%u([0-9a-fA-F]{1,4})/", create_function('$matches','return "&#".hexdec($matches[0]).";";'), $user);
+	$user = html_entity_decode($user, ENT_NOQUOTES, 'UTF-8');
+	$user = str_replace("::@plus@::","+",$user);
+	$user = str_replace("::@euro@::","€",$user);
+	$user = make_var_safe($user);
 
 	$user_list = "";
 	$userID_list = "";
@@ -103,14 +103,14 @@ function ajax_inputUser($data) {
 			$add = "add";
 		$i ++;
 	}
-	if ($i == 1 && $add == "add")
-		$user_list = "";
-	else {
+	//if ($i == 1 && $add == "add")
+	//	$user_list = "";
+	//else {
 		$i ++;
 		if ($i > 5)
 			$i = 5;
 		$user_list .= "@@:t:@@".$i;
-	}
+	//}
 
 	$retstr = $add."@@:t:@@".$user_list."@@:t:@@".$type;
 

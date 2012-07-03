@@ -88,16 +88,16 @@
 	function checkemail($email) {
 		$error = false;
 		if (!strpos($email,"@") || !strpos($email,".")) {
-			$error = "8";
+			$error = "7";
 		}
 		else if (strpos($email,"@") > strrpos($email,".")) {
-			$error = "8";
+			$error = "7";
 		}
 		else if ((strrpos($email,".") + 3) > strlen($email)) {
-			$error = "8";
+			$error = "7";
 		}
 		else if (strpos($email,":") || strpos($email,"(") || strpos($email,")") || strpos($email,"[") || strpos($email,"]") || strpos($email,",") || strpos($email," ") || strpos($email,";")) {
-			$error = "7";
+			$error = "8";
 		}
 		else if (stristr($email,"@mailinator") 
 			|| stristr($email,"@mailbidon") 
@@ -131,7 +131,7 @@
 	function generatePassword($length = 12) {
 
 		$password = "";
-		$possible = ",;#!éèêôîûÉÎÔÈÊ2346789bcdfghjkmnpqrtvwxyzBCDFGHJKLMNPQRTVWXYZ";
+		$possible = ",;#2346789bcdfghjkmnpqrtvwxyzBCDFGHJKLMNPQRTVWXYZ";
 		$maxlength = strlen($possible);
 
 		if ($length > $maxlength) {

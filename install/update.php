@@ -149,6 +149,12 @@
 				$error_msg .= $result."</br>";
 			$old = true;
 		}
+		if ($old || $mf_version == "1.10b6" || $mf_version == "1.10") {
+			$result = load_sql("update_1.10_to_1.20b1.sql");
+			if($result !== TRUE)
+				$error_msg .= $result."</br>";
+			$old = true;
+		}
 		if (!$error_msg) {
 			print($LANG['UPDATE_DB_SUCCESS']);
 		}

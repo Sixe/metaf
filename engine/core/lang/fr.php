@@ -521,7 +521,7 @@ $LANG = array(
 	"RST_COUNT" => "remettre à zéro le compteur",
 	"SELECT_CHOICE" => "Sélectionnez une fonction.",
 	"ACCOUNT_CONFIRM_TITLE" => "Activation du compte...",
-	"ACCOUNT_CONFIRM_SUCCESS" => "Votre compte a été activé.  Veuillez vous connecter.",
+	"ACCOUNT_CONFIRM_SUCCESS" => "Votre compte a été activé.",
 	"ACCOUNT_CONFIRM_FAILURE" => "Une erreur s'est produite, votre compte n'a pû être activé.  Veuillez contacter l'administrateur.",
 	"ACCOUNT_NOT_ACTIVATED" => "Veuillez activer votre compte à l'aide du mail d'activation",
 	"CLEAN_USERS_DATABASE" => "Nettoyage des utilisateurs",
@@ -1339,5 +1339,6 @@ $LANG = array(
 	"ADMIN_OPTIONS_SUB3" => "UTILISATEURS",
 	"ADMIN_OPTIONS_SUB4" => "ANONYMES",
 	"CHANNEL_SIGNAL_NUM" => "Numéro de catégorie pour les sujets<br/>de signalements de message et de mises au silence",
-	"TIMEZONE" => "Timezone "
+	"TIMEZONE" => "Timezone ",
+	"CRYPT_METHOD" => "Méthode d'encryption des mots de passe :"
 	);

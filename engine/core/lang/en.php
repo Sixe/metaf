@@ -517,7 +517,7 @@ $LANG = array(
 	"RST_COUNT" => "reset count",
 	"SELECT_CHOICE" => "Make a selection from the above choices",
 	"ACCOUNT_CONFIRM_TITLE" => "Confirming Account...",
-	"ACCOUNT_CONFIRM_SUCCESS" => "Your account has successfully been confirmed.  Please use the login menu to login and get started",
+	"ACCOUNT_CONFIRM_SUCCESS" => "Your account has successfully been confirmed.",
 	"ACCOUNT_CONFIRM_FAILURE" => "An error has occured, and we could not confirm your account.  Pleast contact the site administrator.",
 	"ACCOUNT_NOT_ACTIVATED" => "Please use the mail activation to validate your account",
 	"CLEAN_USERS_DATABASE" => "Clean users database",
@@ -1335,5 +1335,6 @@ $LANG = array(
 	"ADMIN_OPTIONS_SUB3" => "LOGGED USERS",
 	"ADMIN_OPTIONS_SUB4" => "ANONYMOUS USERS",
 	"CHANNEL_SIGNAL_NUM" => "Channel number for post signals and bans",
-	"TIMEZONE" => "Timezone"
+	"TIMEZONE" => "Timezone",
+	"CRYPT_METHOD" => "Password encryption method:"
 	);

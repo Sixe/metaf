@@ -175,24 +175,19 @@
 		$lastrelease_version = @file($url_release);
 
 		$thisContentObj->primaryContent .= "<div style='text-align:center;color:silver;'>$LANG[ADMIN_INSTALLED_VERSION]: $mf_version / $LANG[ADMIN_JAVASCRIPT_VERSION]: $versionj / $LANG[ADMIN_INTERNAL_VERSION]: $version[version]</div>";
-		if ($lastrelease_version[0] != $mf_version)
+	if ($lastrelease_version[0] > $mf_version)
 			$thisContentObj->primaryContent .= "<div style='text-align:center;color:green;'>$LANG[ADMIN_UPDATED_VERSION1] ($lastrelease_version[0]) $LANG[ADMIN_UPDATED_VERSION2] <a href='http://www.metafora.fr' title='' style='color:green;'>www.metafora.fr</a></div>";
 
 		$shardContentArray[] = $thisContentObj;
 
         switch ($action):
+
         case "g_default":
-
-
-
         break;
 
 
         case "g_siteSettings":
 		if (isInGroup($CURRENTUSER, 'admin')) {
-			//------------------------------------------------------------------------------
-			// Create contentObj for this content object
-			//------------------------------------------------------------------------------
 			$thisContentObj = New contentObj;
 			$thisContentObj->contentType = "generic";
 			$thisContentObj->title = "$LANG[SITE_SETTINGS]";
@@ -422,9 +417,7 @@
 		}
         break;
 
-        //
         // Change site title and desc
-        //
         case "submitSiteSettings":
         if (isInGroup($CURRENTUSER, 'admin')) {
 			$ve = "checked";
@@ -521,9 +514,6 @@
 		// SYSTEM SETTINGS
         case "g_sysSettings":
 		if (isInGroup($CURRENTUSER, 'sysadmin')) {
-			//------------------------------------------------------------------------------
-			// Create contentObj for this content object
-			//------------------------------------------------------------------------------
 			$thisContentObj = New contentObj;
 			$thisContentObj->contentType = "generic";
 			$thisContentObj->primaryContent = "<div style='font-size:1.6em;'>$LANG[SYS_SETTINGS] - $server_name</div>";
@@ -532,8 +522,8 @@
 			if ($version['reset_widgets'])
 				$resetchecked = "checked='checked'";
 
-			$message = mf_query("select message from settings where 1");
-			$message = mysql_fetch_assoc($message);
+		$GetsiteSettings = mf_query("SELECT * FROM settings LIMIT 1");
+		$GetsiteSettings = mysql_fetch_assoc($GetsiteSettings);
 
 			$langList = "";
 
@@ -561,7 +551,7 @@
 					$S = "";
 					$langfile = str_replace(".php", "", $langfile);
 
-					if ($siteSettings['lang'] == $langfile)
+				if ($GetsiteSettings['lang'] == $langfile)
 						$S = "selected='selected'";
 						
 					$thisContentObj->primaryContent .= "<option $S value=\"$langfile\">$langfile</option>";
@@ -694,6 +684,13 @@
 			} 																		
 			$thisContentObj->primaryContent .= "</select></td></tr>";
 
+		$crypt_method_sha1 = "checked='checked'";
+		$crypt_method_blowfish = "";
+		if (CRYPT_BLOWFISH == 1 && $GetsiteSettings['crypt_method'] == "blowfish") {
+			$crypt_method_sha1 = "";
+			$crypt_method_blowfish = "checked='checked'";
+		}
+
 			$thisContentObj->primaryContent .= "<tr>
 				<td style='text-align:right;'>$LANG[THREAD_UPDATE]:</td>
 				<td><input class='bselect' size='3' type='text' name='threadupdate' value='".$siteSettings['threadupdate'] / 1000 ."' />$LANG[WAIT_TO_POST2]</td>
@@ -708,7 +705,7 @@
 				</tr>
 				<tr>
 				<td style='text-align:right;'>$LANG[MESSAGE]:</td>
-				<td><input class='bselect' size='100' type='text' name='message' value=\"$message[message]\" /></td>
+			<td><input class='bselect' size='100' type='text' name='message' value=\"".$GetsiteSettings['message']."\" /></td>
 				</tr>
 				<tr>
 				<td style='text-align:right;'>$LANG[VERSION_INTERNAL]</td>
@@ -721,10 +718,17 @@
 				<tr>
 				<td style='text-align:right;vertical-align:top;'>$LANG[RECAPTCHA_SETTINGS]</td>
 				<td>
-					<div>$LANG[RECAPTCHA_PUBLIC_KEY] <input class='bselect' size='50' type='text' name='recaptcha_pubKey' value=\"".$SSDB['recaptcha_pubKey']."\" /></div>
-					<div>$LANG[RECAPTCHA_PRIVATE_KEY] <input class='bselect' size='50' type='text' name='recaptcha_privKey' value=\"".$SSDB['recaptcha_privKey']."\" /></div>
+				<div>$LANG[RECAPTCHA_PUBLIC_KEY] <input class='bselect' size='50' type='text' name='recaptcha_pubKey' value=\"".$GetsiteSettings['recaptcha_pubKey']."\" /></div>
+				<div>$LANG[RECAPTCHA_PRIVATE_KEY] <input class='bselect' size='50' type='text' name='recaptcha_privKey' value=\"".$GetsiteSettings['recaptcha_privKey']."\" /></div>
 				</td>
 				</tr>";
+		if (CRYPT_BLOWFISH == 1)
+			$thisContentObj->primaryContent .= "<tr>
+			<td style='text-align:right;vertical-align:top;'>$LANG[CRYPT_METHOD]</td>
+			<td>
+				<div><input class='bselect' type='radio' name='crypt_method' value='sha1' $crypt_method_sha1 /> SHA1</div>
+				<div><input class='bselect' type='radio' name='crypt_method' value='blowfish' $crypt_method_blowfish /> CRYPT Blowfish</td>
+			</tr>";
 
 			$thisContentObj->primaryContent .= "<tr>
 				<td></td><td><input class='button' type='submit' value=\"$LANG[SAVE_SETTINGS]\" /></td>
@@ -740,9 +744,7 @@
 		}
         break;
 
-        //
         // Change system settings
-        //
         case "submitSysSettings":
 		if (isInGroup($CURRENTUSER, 'sysadmin')) {
 			$mod_rewrite = "checked";
@@ -770,8 +772,11 @@
 			$recaptcha_privKey = make_var_safe($_POST['recaptcha_privKey']);
 			$recaptcha_pubKey = make_var_safe($_POST['recaptcha_pubKey']);
 
+		$crypt_method = "";
+		if (isset($_POST['crypt_method']) && $_POST['crypt_method'] == "blowfish")
+			$crypt_method = "blowfish";
 	
-			mf_query("UPDATE settings SET lang='$_POST[language]', loadavg='$loadavg', mod_rewrite='$mod_rewrite', siteurl=\"$url\", threadupdate='$threadupdate', postupdate='$postupdate', message=\"$message\", recaptcha_privKey = \"$recaptcha_privKey\", recaptcha_pubKey = \"$recaptcha_pubKey\", timezone = \"$timezone\" WHERE 1");
+		mf_query("UPDATE settings SET lang='$_POST[language]', loadavg='$loadavg', mod_rewrite='$mod_rewrite', siteurl=\"$url\", threadupdate='$threadupdate', postupdate='$postupdate', message=\"$message\", recaptcha_privKey = \"$recaptcha_privKey\", recaptcha_pubKey = \"$recaptcha_pubKey\", timezone = \"$timezone\", crypt_method = '$crypt_method' WHERE 1");
 
 			$server_name = $_SERVER['SERVER_NAME'];
 			$version = make_var_safe($_POST['version']);
@@ -790,9 +795,7 @@
 		}
         break;
         
-		//
 		// Choose Widgets
-		//
 		case "g_widgets":
 		if (isInGroup($CURRENTUSER, 'sysadmin')) {
 
@@ -878,7 +881,7 @@
 					$actives_widgets .= "<a href='".make_link("admin","&amp;action=g_widgets&up=$widgets[$i]")."' style=''><img src='engine/grafts/$siteSettings[graft]/images/uparrowoff.gif' alt=''/></a>";
 				$actives_widgets .= "</div></div>";
 			}
-//			$actives_widgets .= "</div>";
+
 			for ($i=0; $i < sizeof($widgetfileArray); $i++) {
 				if (!in_array($widgetfileArray[$i], $widgets))
 					$inactives_widgets .= "<div class='row'><div onclick=\"location.href='".make_link("admin","&amp;action=g_widgets&add=$widgetfileArray[$i]")."';\" class='widgets_set'>".$widgetfileArray[$i]."</div></div>";
@@ -887,9 +890,7 @@
 		}
 		break;
 		
-		//
-		// Choose Widgets
-		//
+	// Facebook Settings
 		case "g_fb":
 		if (isInGroup($CURRENTUSER, 'sysadmin')) {
 			$thisContentObj->primaryContent .= "<div style='font-size:2em;margin-top:16px;margin-bottom:16px;'>$LANG[FB_SETTINGS_T]</div>";
@@ -921,9 +922,7 @@ define('FACEBOOK_SECRET', '".$_POST['secret']."');
 		}
 		break;
 
-		//
         // Choose site graft
-        //        
         case "g_chooseGraft":
         if (isInGroup($CURRENTUSER, 'admin')) {
 			$thisContentObj = New contentObj;
@@ -947,9 +946,7 @@ define('FACEBOOK_SECRET', '".$_POST['secret']."');
 		}
         break;
 
-        //
         // Modify Moderating Options
-        //
         case "g_modifyModOptions":        
 		if (isInGroup($CURRENTUSER, 'admin')) {
 			$thisContentObj = New contentObj;
@@ -991,9 +988,7 @@ define('FACEBOOK_SECRET', '".$_POST['secret']."');
         }
 		break;        
 
-        //
         // Modify Channel Listings
-        //
         case "g_modifyChannels":
         if (isInGroup($CURRENTUSER, 'admin')) {	
 			
@@ -1117,10 +1112,7 @@ define('FACEBOOK_SECRET', '".$_POST['secret']."');
 		}
         break;
 
-        //
         // g_edit 
-        //
-
         case "g_edit":
 		if (isInGroup($CURRENTUSER, 'admin')) {	
 			if( is_numeric( $_REQUEST['editID'])) {
@@ -1501,10 +1493,7 @@ define('FACEBOOK_SECRET', '".$_POST['secret']."');
 		}
 		break;
 
-        // 
         // g_add channel
-        //
-
         case "g_add":
         if (isInGroup($CURRENTUSER, 'admin')) {
 			$thisContentObj = New contentObj;
@@ -1536,11 +1525,8 @@ define('FACEBOOK_SECRET', '".$_POST['secret']."');
         break;
 
 
-        //
         // functional add
-        //
         case "addNew":
-		
 		if (isInGroup($CURRENTUSER, 'admin')) {	
 			$name = make_var_safe( $_POST['name']);
             $desc = make_var_safe( $_POST['description']);
@@ -1554,7 +1540,6 @@ define('FACEBOOK_SECRET', '".$_POST['secret']."');
 
        
         case "recalcnri":
-        
         if (isInGroup($CURRENTUSER, 'admin')) {
 			$userlist = mf_query("select * from users order by rating desc");
         	
@@ -1564,36 +1549,11 @@ define('FACEBOOK_SECRET', '".$_POST['secret']."');
 				mf_query("update users set rating=$newNRI where ID=$row[ID] limit 1");
 				print "<br/><br/><br/>----------------------------<br/><br/><br/>";
 			}
-        
         }
-        break;
-        
-        case "g_usermgt":
-        
-
-		{/*
-			//------------------------------------------------------------------------------
-			// Create contentObj for this content object
-			//------------------------------------------------------------------------------
-			$thisContentObj = New contentObj; 
-			$thisContentObj->title = "$LANG[MANAGE_USER]";
-			$thisContentObj->contentType = "generic";
-			
-			$thisContentObj->primaryContent = "<br/><br/>$LANG[REMOVE_USER]";
-			$thisContentObj->primaryContent .= "<br/><form action='index.php?shard=admin&amp;action=banuser' method=POST>$LANG[USER_TO_BAN]: <input class='controls' type=text size=50 name='user2ban'> &nbsp; <input class='controls' type=submit value=\"$LANG[BAN_USER]\"></form>";
-			
-			
-			
-			$shardContentArray[] = $thisContentObj;
-        	
-        
-      */  }
         break;
         
         
         case "banuser":
-        
-
         break;
         
 		case "g_clean_users":
@@ -1686,7 +1646,6 @@ define('FACEBOOK_SECRET', '".$_POST['secret']."');
 				$cleana = mf_query("SELECT COUNT(ID) as Expr1 from users");
 				$cleana = mysql_fetch_assoc($cleana);
 				mf_query("DELETE FROM forum_user_nri WHERE num_posts = 0 AND num_posts_notnri = 0 AND userID IN (SELECT ID FROM users WHERE lat > 0 AND lat < '$dateclean')");
-//				mf_query("DELETE FROM permissiongroups WHERE username IN (SELECT username FROM users WHERE lat < '$dateclean')");
 				mf_query("DELETE FROM `users` WHERE userstatus IS NULL AND `username` NOT IN (SELECT `name` FROM `forum_user_nri`)");
 				$cleanb = mf_query("SELECT COUNT(ID) as Expr1 from users");
 				$cleanb = mysql_fetch_assoc($cleanb);
@@ -1815,9 +1774,6 @@ define('FACEBOOK_SECRET', '".$_POST['secret']."');
 			$thisContentObj->primaryContent .= "<tr><td>$LANG[GROUP_MANAGEMENT_MODO]</td>
 				<td>$LANG[GROUP_MANAGEMENT_MODO_TEXT]</td>
 				<td>$LANG[GROUP_MANAGEMENT_MODO_DESC]</td></tr>";
-//			$thisContentObj->primaryContent .= "<tr><td>$LANG[GROUP_MANAGEMENT_LEVEL00]</td>
-//				<td><input class='bselect' size='16' type='text' name='namedisp0' value=\"$name[namedisp0]\" /></td>
-//				<td>$LANG[GROUP_MANAGEMENT_LEVEL00_DESC]</td></tr>";
 			$thisContentObj->primaryContent .= "<tr><td>$LANG[GROUP_MANAGEMENT_LEVEL01]</td>
 				<td><input class='bselect' size='16' type='text' name='namedisp1' value=\"$name[namedisp1]\" /></td>
 				<td>$LANG[GROUP_MANAGEMENT_LEVEL01_DESC]</td></tr>";
@@ -1886,12 +1842,6 @@ define('FACEBOOK_SECRET', '".$_POST['secret']."');
 
         	$group_buttons = "";
 
-//			$button_class = "class='button_mini_off'";
-//			if (array_key_exists('group', $_REQUEST))
-//				if ($_REQUEST['group'] == "level0")
-//					$button_class = "class='button_mini_on'";
-//			if ($groups['namedisp0'])
-//				$group_buttons .= "<a href='index.php?shard=admin&amp;action=g_group_users&amp;group=level0' $button_class>$groups[namedisp0]</a>&nbsp;";
 			$button_class = "class='button_mini_off'";
 			if (array_key_exists('group', $_REQUEST))
 				if ($_REQUEST['group'] == "admin")
@@ -2006,9 +1956,6 @@ define('FACEBOOK_SECRET', '".$_POST['secret']."');
 
         case "g_customCSS":
 		if (isInGroup($CURRENTUSER, 'admin')) {
-			//------------------------------------------------------------------------------
-			// Create contentObj for this content object
-			//------------------------------------------------------------------------------
 			$thisContentObj = New contentObj; 
 			$thisContentObj->title = "$LANG[CUSTOM_CSS]";
 			$thisContentObj->contentType = "generic";
@@ -2036,7 +1983,6 @@ define('FACEBOOK_SECRET', '".$_POST['secret']."');
         	header("Location: ".make_link("admin","&action=g_customCSS&success=1"));
 		}
         break;
-
 
 
 	case "g_banned_users":
@@ -2180,7 +2126,6 @@ define('FACEBOOK_SECRET', '".$_POST['secret']."');
 				</form>";
 		
 		$shardContentArray[] = $thisContentObj;
-		
 	}
 	break;
 

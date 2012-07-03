@@ -139,11 +139,14 @@
 
 	$siteSettings['description'] = "";
 
+   	$siteSettings['lang'] = $SSDB['lang'];
+	if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
    	$userlang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'],0,2);
 	if ($userlang == "fr")
 		$siteSettings['lang'] = "fr";
 	else
 		$siteSettings['lang'] = "en";
+	}
 
     $siteSettings['dChannel'] = $SSDB['dChannel'];
     $siteSettings['verifyEmail'] = $SSDB['verifyemail'];
@@ -183,6 +186,7 @@
 	if (!$siteSettings['channel_signal'])
 		$siteSettings['channel_signal'] = "1";
 	$siteSettings['introduce_ID'] = $SSDB['introduce_ID'];
+	$siteSettings['crypt_method'] = $SSDB['crypt_method'];
 
 	if (isset($_REQUEST["shard"])) {
 		$shard = make_var_safe($_REQUEST['shard']);
@@ -191,9 +195,12 @@
 			$shard = $url_elements[0];
 			$_REQUEST['shard'] = $shard;
 			for ($i=1;$i<=sizeof($url_elements);$i++) {
+				if (array_key_exists($i,$url_elements)) {
 				$url_elements_in = explode("=", $url_elements[$i]);
+					if (isset($url_elements_in[1]))
 				$_REQUEST[$url_elements_in[0]] = $url_elements_in[1];
 			}
+		}
 		}
 		
 		if (preg_match('/\W/', $shard)) {
@@ -214,17 +221,23 @@
 			}
 		}
 	}
-	else {
+	
+    // Authenticate user
+    include("engine/core/authenticate.php");  
+	if (file_exists("engine/site/lang/site_" . $siteSettings['lang'] . ".php")) {
+		include("engine/site/lang/site_" . $siteSettings['lang'] . ".php");
+	}
+
+	if (!isset($_REQUEST["shard"])) {
 		$shard = $siteSettings["defaultShard"];
 		$_REQUEST["shard"] = $shard;
 	}
 
-	
-    // Authenticate user
-    include("engine/core/authenticate.php");  
-
-	if ($siteSettings['mobile'] && $_COOKIE['full_site'] != "mobilesiteplus")
+	if ($siteSettings['mobile']) {
+		if (!isset($_COOKIE['full_site']) || (isset($_COOKIE['full_site']) && $_COOKIE['full_site'] != "mobilesiteplus"))
 		$CURRENTUSERAJAX = "";
+	}
+
 
 	if ($CURRENTUSER == "anonymous" && $_REQUEST["shard"] != "login" && $siteSettings['loadavg'] > 0) {
 		if (file_exists("/proc/loadavg")) {

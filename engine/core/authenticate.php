@@ -38,24 +38,14 @@
 		$typeip = $row['type'];
 	}
 
-/*	$xml_auth = false;
-	if ($shard == "xml" && is_numeric($_REQUEST['user'])) {
-		$xml_userID = $_REQUEST['user'];
-		$xml_pass = make_var_safe($_REQUEST['pass']);
-		$xml_req = mf_query("SELECT * FROM users WHERE ID = '$xml_userID' AND password = '$xml_pass' LIMIT 1");
-		if ($usr = mysql_fetch_assoc($xml_req)) {
-			$authenticated = true;
-			$xml_auth = true;
-		}
-	}*/
 	$fbcookie = "";
 	$fbemail = "";
 	if (isset($_COOKIE['fblogged'])) {
 		$fbcookie = $_COOKIE['fblogged'];
 		$fbcookie_array = explode(",",$fbcookie);
 		if ($fbcookie_array[1] != "undefined") {
-		$fbuserID = $fbcookie_array[0];
-		$fbemail = $fbcookie_array[1];
+			$fbuserID = $fbcookie_array[0];
+			$fbemail = $fbcookie_array[1];
 		}
 		else {
 			$fbcookie = "";
@@ -71,28 +61,26 @@
 			
 			if ($usr = mysql_fetch_assoc($usr)) {
 				if ($usr['lang'])
-					include("engine/core/lang/" . $usr['lang'] . ".php");
-				else
-					include("engine/core/lang/" . $siteSettings['lang'] . ".php");
+					$siteSettings['lang'] = $usr['lang'];
+				include("engine/core/lang/" . $siteSettings['lang'] . ".php");
 					
 				if ($usr['graft'] && file_exists("engine/grafts/$usr[graft]") && !$siteSettings['mobile'])
 					$siteSettings['graft'] = $usr['graft'];
-				
+
 				if ($_COOKIE['b6'.$siteSettings['db'].'password'] == $usr['password'])
 					$authenticated = true;
 				else {
-					include("engine/core/lang/" . $siteSettings['lang'] . ".php");
 					setcookie("b6".$siteSettings['db']."username", "", time()-2000, "/");
 					setcookie("b6".$siteSettings['db']."userID", "", time()-2000, "/");
-					print "$LANG[LOGIN_FAILED]";
+					header("Location: index.php?shard=login&action=g_login_failed");
 					exit();
 				}
 			}
 			else {
 				include("engine/core/lang/" . $siteSettings['lang'] . ".php");
-				setcookie("b6".$siteSettings['db']."username", "", time()-2000, "/");
+				header("Location: index.php?shard=login&action=g_login_failed");
 				setcookie("b6".$siteSettings['db']."userID", "", time()-2000, "/");
-				print "$LANG[LOGIN_FAILED]";
+				header("Location: index.php?shard=login&action=g_login_failed");
 				exit();
 			}
 		}
@@ -106,9 +94,8 @@
 		$usr = mysql_fetch_assoc($fb);
 		if ($usr['ID']) {
 			if ($usr['lang'])
-				include("engine/core/lang/" . $usr['lang'] . ".php");
-			else
-				include("engine/core/lang/" . $siteSettings['lang'] . ".php");
+				$siteSettings['lang'] = $usr['lang'];
+			include("engine/core/lang/" . $siteSettings['lang'] . ".php");
 
 			if ($usr['graft'] && file_exists("engine/grafts/$usr[graft]") && !$siteSettings['mobile'])
 				$siteSettings['graft'] = $usr['graft'];
@@ -117,16 +104,16 @@
 			$cookieuserID = $usr['ID'];
 			$siteSettings['facebook'] = true;
 		}
-//		else if ($_REQUEST["shard"] != "adduser" && $_REQUEST["shard"] != "login") {
-//			if (!isset($_COOKIE['b6_fb'.$fbuserID]))
-//				$_REQUEST["shard"] = "adduser";
-//		}
+		else if ($_REQUEST["shard"] != "adduser" && $_REQUEST["shard"] != "login") {
+			if (!isset($_COOKIE['b6_fb'.$fbuserID]))
+				$_REQUEST["shard"] = "adduser";
+		}
 	}
 	if (!$authenticated) {
         if (array_key_exists('lang' , $_COOKIE ) == TRUE ) {
 			$siteSettings['lang'] = $_COOKIE['lang'];
 		}
-		include("engine/core/lang/" . $siteSettings['lang'] . ".php");
+        include("engine/core/lang/" . $siteSettings['lang'] . ".php");
         $CURRENTUSER = "anonymous";
 		$CURRENTUSERID = "";
         $CURRENTUSERDTT = -.20;
@@ -168,6 +155,7 @@
 		$CURRENTUSERRULESPIC = $usr['rulespictures'];
 		$CURRENTUSERRULESET = $usr['rules_et'];
 		$CURRENTUSERNOTIFYLENGHT = $usr['notify_lenght'];
+		$CURRENTUSERSOUNDALERT = $usr['sound_alert'];
 		$FACEBOOK_OFF = $usr['facebook_disabled'];
 		$isInGroup = array();
 		$query_groups = mf_query("SELECT pGroup	FROM permissiongroups WHERE username = \"$CURRENTUSER\"");
@@ -221,13 +209,13 @@
 					$msg .= "[br]$LANG[UNBAN_IP]";
 				$inTime = time();
 				$result = mf_query("INSERT INTO forum_posts
-										(body, user, userID, date, threadID, rating)
+									(body, user, userID, date, threadID, rating)
 										VALUES (\"$msg\", \"$siteSettings[systemuser]\", 1, $inTime, $threadID, 0)");
 				$lastPost = mf_query("SELECT ID, user from forum_posts WHERE userID=1 and date='$inTime' ORDER BY ID LIMIT 0,1");
 				$lastPost = mysql_fetch_assoc($lastPost);
 				mf_query("UPDATE forum_topics 
 						SET last_post_id='$lastPost[ID]', last_post_user='$lastPost[user]', last_post_date='$inTime', 
-								num_comments = num_comments + 1, num_comments_T = num_comments_T + 1 
+						num_comments = num_comments + 1, num_comments_T = num_comments_T + 1 
 						WHERE ID='$threadID' LIMIT 1");
 
 				// User ban thread
@@ -258,7 +246,7 @@
 			$CURRENTUSER = "bot";
 		if ($typeip == "banned")
 			$CURRENTSTATUS = "banned";
-		}
+	}
 
 
 //	session_start();
@@ -276,5 +264,5 @@
 			}
 		}	
 	}
-     
+
 ?>

@@ -1147,7 +1147,7 @@
 					else
 						$amtStr = "[b]-".$amtStr."[/b]";
 				}	
-
+				if ($CURRENTUSERID != $usertomod) {
 				$not_nri = mf_query("SELECT not_nri FROM categories WHERE ID='$threadcat[category]' LIMIT 1");
 				$not_nri = mysql_fetch_assoc($not_nri);
 
@@ -1184,6 +1184,7 @@
 
 				}
 			}
+		}
 		}
 		
 		return 1;

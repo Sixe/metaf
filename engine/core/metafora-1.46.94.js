@@ -1026,7 +1026,7 @@ function appendPosts(dataLine) {
 		if (windowIsActive != true) {
 			if (document.getElementById('speaker')) {
 				if (document.getElementById('speaker').className == "speakerOn") {
-				so.write("flashcontent"); 
+					so.write("flashcontent"); 
 				}
 			}
 			blinkTitle(1, 1);
@@ -5320,8 +5320,8 @@ function menu_sections(section1,section2,section3) {
 function verif_nick() {
 	clearTimeout(f);
 	f = setTimeout(function() {check_nick();}, 300);
-	if (!document.getElementById('email'))
-		document.getElementById('submitnewNick').style.display = 'none';
+//	if (!document.getElementById('email'))
+//		document.getElementById('submitnewNick').style.display = 'none';
 }
 
 function check_nick() {

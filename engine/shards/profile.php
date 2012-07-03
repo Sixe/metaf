@@ -25,6 +25,7 @@
 require("forumlib.php");
 require("profilelib.php");
 require("user_profilelib.php");
+require("cryptpasslib.php");
 
 if ($CURRENTUSER == "bot")
 	header("Location: ".make_link("forum"));
@@ -769,7 +770,7 @@ break;
 	
 	case "g_submit_passwd":
 	if($CURRENTUSER != "anonymous" && $CURRENTUSER != "") {
-		$error = false;
+		$error = "";
 		$oldp = "";
 		if (array_key_exists("oldp" , $_POST ) == TRUE )
 	        $oldp = make_var_safe(htmlspecialchars($_POST["oldp"]));
@@ -780,21 +781,38 @@ break;
 	    if (array_key_exists("new2" , $_POST ) == TRUE )
 	        $new2 = make_var_safe(htmlspecialchars($_POST["new2"]));
 	        
-		$oldpass = mf_query("select password from users where ID = '$CURRENTUSERID' limit 1");
+		$oldpass = mf_query("SELECT password, crypt_method, salt FROM users where ID = '$CURRENTUSERID' limit 1");
 		$oldpass = mysql_fetch_assoc($oldpass);
-		if ($oldpass['password'] != sha1($oldp)) {
-			$error = $LANG['OLD_PASS_NOT_MATCH'];
+		if (!$oldpass['crypt_method'] && $oldpass['password'] != sha1($oldp)) {
+			$error .= $LANG['OLD_PASS_NOT_MATCH']."<br/>";
 		}
-		else if ($new1 != $new2) {
-			$error = $LANG['PASS_NOT_MATCH'];
+		else if ($oldpass['crypt_method'] == "blowfish") {
+		    $stored_password = $oldpass['password'];
+		    $stored_salt2 = $oldpass['salt'];
+		    $verif_pass = crypt($oldp . $stored_salt2, $stored_password); //compare the crypt of input+stored_salt2 to the stored crypt password
+		    if ($verif_pass != $stored_password) {
+		        $error .= $LANG['OLD_PASS_NOT_MATCH']."<br/>";
+		    }
 		}
-		else if ((strlen($new1) < 6) || (strlen($new1) > 16)) {
-			$error = $LANG['PASS_LENGH_INCORRECT'];
+		if ($new1 != $new2) {
+			$error .= $LANG['PASS_NOT_MATCH']."<br/>";
+		}
+		if ((strlen($new1) < 6) || (strlen($new1) > 16)) {
+			$error .= $LANG['PASS_LENGH_INCORRECT']."<br/>";
 		}
 		
 		if (!$error) {	        
+	        if (!$siteSettings['crypt_method']) {
 	        $new1 = SHA1($new1);
-	        $update = mf_query("update users set password='$new1' where ID='$CURRENTUSERID'");
+		        mf_query("UPDATE users set password='$new1' where ID='$CURRENTUSERID' LIMIT 1");
+		    }
+		    else {
+		    	crypt_password($new1,$CURRENTUSERID);
+				$result = mf_query("SELECT password FROM users WHERE ID='$CURRENTUSERID' LIMIT 1");
+				$result = mysql_fetch_assoc($result);
+				$new1 = $result['password'];
+
+		    }
 	        setcookie("b6".$siteSettings['db']."password", "$new1", time()+864000000, "/");
 		    header("Location: ".make_link("profile","&action=g_success"));
 		}
